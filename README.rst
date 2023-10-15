@@ -22,7 +22,16 @@ Introduction
     :target: https://github.com/psf/black
     :alt: Code Style: Black
 
-pretend to be 'rotaryio' for boards that need non-sequential pins
+Pretend to be ``rotaryio`` for boards that need non-sequential pins.
+
+On RP2040-based boards like the Raspberry Pi Pico and QTPy RP2040,
+if you try to use "`rotaryio <https://docs.circuitpython.org/en/latest/shared-bindings/rotaryio/index.html>`_"
+on pins whose GPIO numbers are not sequential, you will get a
+``RuntimeError: Pins must be sequential GPIO pins``.
+
+
+This package acts just like ``rotaryio`` but uses ``keypad`` and some logic to read a rotary encoder.
+It is not as fast or efficient as ``rotaryio`` but it will work on RP2040 boards.
 
 
 Dependencies
