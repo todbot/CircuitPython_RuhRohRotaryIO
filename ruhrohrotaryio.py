@@ -13,6 +13,10 @@ Pretend to be 'rotaryio' for boards that need non-sequential pins
 Implementation Notes
 --------------------
 
+**Hardware:**
+
+Any CircuitPython device with `keypad` support
+
 **Software and Dependencies:**
 
 * Adafruit CircuitPython firmware for the supported boards:
@@ -22,23 +26,25 @@ Implementation Notes
 
 # imports
 
+import keypad
+import digitalio
+
 __version__ = "0.0.0+auto.0"
 __repo__ = "https://github.com/todbot/CircuitPython_RuhRohRotaryIO.git"
 
 
-import keypad
-from digitalio import DigitalInOut, Direction, Pull
-
-
 class IncrementalEncoder:
-    """A simple drop-in replacement for rotaryio.IncrementalEncoder that works
-    on non-sequential pins on RP2040"""
+    """
+    A simple drop-in replacement for rotaryio.IncrementalEncoder that works
+    on non-sequential pins on RP2040
+    """
 
     def __init__(self, pin_a, pin_b, divisor=4):  # divisor is unused currently
-        pin = DigitalInOut(pin_a)
-        pin.switch_to_input(pull=Pull.UP)
+        pin = digitalio.DigitalInOut(pin_a)
+        pin.switch_to_input(pull=digitalio.Pull.UP)
         self._key1_val = pin.value  # get initial pin state
         pin.deinit()  # just needed it to check pin state
+        self._divisor = divisor
         self._encoder_keys = keypad.Keys(
             (pin_a, pin_b), value_when_pressed=False, pull=True
         )
@@ -65,6 +71,9 @@ class IncrementalEncoder:
 
     @property
     def position(self):
+        """The current position in terms of pulses.
+        The number of pulses per rotation is defined by the specific hardware and by the divisor.
+        """
         self._update()
         return self._position
 

@@ -37,35 +37,6 @@ This is easily achieved by downloading
 or individual libraries can be installed using
 `circup <https://github.com/adafruit/circup>`_.
 
-Installing from PyPI
-=====================
-.. note:: This library is not available on PyPI yet. Install documentation is included
-   as a standard element. Stay tuned for PyPI availability!
-
-.. todo:: Remove the above note if PyPI version is/will be available at time of release.
-
-On supported GNU/Linux systems like the Raspberry Pi, you can install the driver locally `from
-PyPI <https://pypi.org/project/circuitpython-ruhrohrotaryio/>`_.
-To install for current user:
-
-.. code-block:: shell
-
-    pip3 install circuitpython-ruhrohrotaryio
-
-To install system-wide (this may be required in some cases):
-
-.. code-block:: shell
-
-    sudo pip3 install circuitpython-ruhrohrotaryio
-
-To install in a virtual environment in your current project:
-
-.. code-block:: shell
-
-    mkdir project-name && cd project-name
-    python3 -m venv .venv
-    source .env/bin/activate
-    pip3 install circuitpython-ruhrohrotaryio
 
 Installing to a Connected CircuitPython Device with Circup
 ==========================================================
@@ -90,11 +61,51 @@ Or the following command to update an existing version:
 
     circup update
 
+Installing from PyPI
+=====================
+
+On supported GNU/Linux systems like the Raspberry Pi, you can install the driver locally `from
+PyPI <https://pypi.org/project/circuitpython-ruhrohrotaryio/>`_.
+To install for current user:
+
+.. code-block:: shell
+
+    pip3 install circuitpython-ruhrohrotaryio
+
+To install system-wide (this may be required in some cases):
+
+.. code-block:: shell
+
+    sudo pip3 install circuitpython-ruhrohrotaryio
+
+To install in a virtual environment in your current project:
+
+.. code-block:: shell
+
+    mkdir project-name && cd project-name
+    python3 -m venv .venv
+    source .env/bin/activate
+    pip3 install circuitpython-ruhrohrotaryio
+
 Usage Example
 =============
 
-.. todo:: Add a quick, simple example. It and other examples should live in the
-examples folder and be included in docs/examples.rst.
+.. code-block:: python
+
+    import time
+    import board
+
+    if os.uname().machine.find("rp2040") > 0:  # RP2040
+        from ruhrohrotaryio import IncrementalEncoder
+    else:
+        from rotaryio import IncrementalEncoder
+
+    encoder = IncrementalEncoder( board.A3, board.A1 )
+
+    while True:
+        print(encoder.position)
+        time.sleep(0.1)
+
 
 Documentation
 =============
