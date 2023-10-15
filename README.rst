@@ -92,8 +92,11 @@ Usage Example
 
 .. code-block:: python
 
+    import os
     import time
     import board
+
+    # works on both QTPY M0 and QTPY RP2040
 
     if os.uname().machine.find("rp2040") > 0:  # RP2040
         from ruhrohrotaryio import IncrementalEncoder
